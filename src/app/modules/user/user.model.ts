@@ -29,6 +29,7 @@ const userSchema = new Schema<IUser>({
         default: IsActive.ACTIVE,
     },
     isVerified: { type: Boolean, default: false },
+    isApproved: { type: Boolean, default: false },
     auths: [authProviderSchema],
 }, {
     timestamps: true,

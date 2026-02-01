@@ -34,8 +34,6 @@ const credentialsLogin = async (payload: Partial<IUser>) => {
 
 }
 
-//user - login - token (email, role, _id) - booking / payment / booking / payment cancel - token 
-
 export const AuthServices = {
     credentialsLogin
 }
