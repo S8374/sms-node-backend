@@ -1,39 +1,28 @@
-import { model, Schema } from "mongoose";
-import { IAuthProvider, IsActive, IUser, Role } from "./user.interface";
+import { Schema, model } from "mongoose";
+import { IAuthProvider, IUser, Role, IsActive } from "./user.interface";
 
+const authProviderSchema = new Schema<IAuthProvider>(
+  { provider: { type: String, required: true }, providerId: { type: String, required: true } },
+  { _id: false, versionKey: false }
+);
 
-const authProviderSchema = new Schema<IAuthProvider>({
-    provider: { type: String, required: true },
-    providerId: { type: String, required: true }
-}, {
-    versionKey: false,
-    _id: false
-})
-
-const userSchema = new Schema<IUser>({
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
+const userSchema = new Schema<IUser>(
+  {
+    name: { type: String, required: true, unique: true, trim: true, index: true },
+    email: { type: String, unique: true, sparse: true, lowercase: true, trim: true }, // optional
     password: { type: String },
-    role: {
-        type: String,
-        enum: Object.values(Role),
-        default: Role.USER
-    },
+    role: { type: String, enum: Object.values(Role), default: Role.USER },
     phone: { type: String },
     picture: { type: String },
     address: { type: String },
+    referralCode: { type: String }, // optional
     isDeleted: { type: Boolean, default: false },
-    isActive: {
-        type: String,
-        enum: Object.values(IsActive),
-        default: IsActive.ACTIVE,
-    },
+    imHuman :{type:Boolean , default : false},
+    isActive: { type: String, enum: Object.values(IsActive), default: IsActive.ACTIVE },
     isVerified: { type: Boolean, default: false },
-    isApproved: { type: Boolean, default: false },
     auths: [authProviderSchema],
-}, {
-    timestamps: true,
-    versionKey: false
-})
+  },
+  { timestamps: true, versionKey: false }
+);
 
-export const User = model<IUser>("User", userSchema)
+export const User = model<IUser>("User", userSchema);

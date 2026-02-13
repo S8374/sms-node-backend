@@ -1,13 +1,11 @@
 import { Router } from "express";
-import { validateRequest } from "../../middlewares/validateRequest";
 import { UserControllers } from "./user.controller";
-import { createUserZodSchema } from "./user.validation";
 
 const router = Router()
 
 
 
-router.post("/register", validateRequest(createUserZodSchema), UserControllers.createUser)
+router.post("/register", UserControllers.createUser)
 
 // /api/v1/user/:id
 export const UserRoutes = router

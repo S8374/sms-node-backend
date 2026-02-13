@@ -6,33 +6,30 @@ export enum Role {
     USER = "USER",
 }
 
+export enum IsActive {
+    ACTIVE = "ACTIVE",
+    INACTIVE = "INACTIVE",
+    BLOCKED = "BLOCKED",
+}
+
 export interface IAuthProvider {
     provider: "google" | "credentials";
     providerId: string;
 }
 
-
-export enum IsActive {
-    ACTIVE = "ACTIVE",
-    INACTIVE = "INACTIVE",
-    BLOCKED = "BLOCKED"
-}
-
-
 export interface IUser {
     _id?: Types.ObjectId;
-    name: string;
-    email: string;
-    password?: string;
+    name: string;             // required
+    email?: string;           // optional
+    password?: string;        // required for login
     phone?: string;
     picture?: string;
     address?: string;
-    isDeleted?: string;
+    imHuman:boolean;
+    referralCode?: string;    // optional
+    isDeleted?: boolean;
     isActive?: IsActive;
     isVerified?: boolean;
-    isApproved?: boolean;
     role: Role;
-    auths: IAuthProvider[]
-    bookings?: Types.ObjectId[]
-    guides?: Types.ObjectId[]
+    auths: IAuthProvider[];
 }

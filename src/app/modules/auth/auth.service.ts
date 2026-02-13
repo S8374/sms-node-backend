@@ -1,39 +1,56 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import bcryptjs from "bcryptjs";
 import httpStatus from "http-status-codes";
-import { envVars } from "../../config/env";
 import AppError from "../../errorHelpers/AppError";
-import { generateToken } from "../../utils/jwt";
-import { IUser } from "../user/user.interface";
 import { User } from "../user/user.model";
+import { createUserTokens } from "../../utils/userTokens";
 
+const credentialsLogin = async (payload: {
+  identifier?: string;
+  email?: string;
+  name?: string;
+  password?: string;
+  imHuman?: boolean; // ✅ new field
+}) => {
+  const identifier = payload.identifier || payload.email || payload.name;
+  const { password, imHuman } = payload;
 
-const credentialsLogin = async (payload: Partial<IUser>) => {
-    const { email, password } = payload;
+  if (!identifier || !password) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "Username/email and password are required"
+    );
+  }
 
-    const isUserExist = await User.findOne({ email })
+  // 🔥 Find by email OR name
+  const user = await User.findOne({
+    $or: [{ email: identifier }, { name: identifier }],
+  });
 
-    if (!isUserExist) {
-        throw new AppError(httpStatus.BAD_REQUEST, "Email does not exist")
-    }
+  if (!user) {
+    throw new AppError(httpStatus.BAD_REQUEST, "User does not exist");
+  }
 
-    const isPasswordMatched = await bcryptjs.compare(password as string, isUserExist.password as string)
+  const isPasswordMatched = await bcryptjs.compare(password, user.password as string);
+  if (!isPasswordMatched) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Incorrect password");
+  }
 
-    if (!isPasswordMatched) {
-        throw new AppError(httpStatus.BAD_REQUEST, "Incorrect Password")
-    }
-    const jwtPayload = {
-        userId: isUserExist._id,
-        email: isUserExist.email,
-        role: isUserExist.role
-    }
-    const accessToken = generateToken(jwtPayload, envVars.JWT_ACCESS_SECRET, envVars.JWT_ACCESS_EXPIRES)
+  // ✅ Update imHuman if provided
+  if (typeof imHuman === "boolean") {
+    user.imHuman = imHuman;
+    await user.save();
+  }
 
-    return {
-        accessToken
-    }
+  const userTokens = createUserTokens(user);
 
-}
+  const { password: pass, ...rest } = user.toObject();
 
-export const AuthServices = {
-    credentialsLogin
-}
+  return {
+    accessToken: userTokens.accessToken,
+    refreshToken: userTokens.refreshToken,
+    user: rest, // includes imHuman now
+  };
+};
+
+export const AuthServices = { credentialsLogin };
