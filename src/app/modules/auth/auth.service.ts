@@ -52,5 +52,13 @@ const credentialsLogin = async (payload: {
     user: rest, // includes imHuman now
   };
 };
+const getMe = async (userId: string) => {
+  if (!userId) throw new Error("User ID is required");
 
-export const AuthServices = { credentialsLogin };
+  const user = await User.findById(userId).select("-password -__v"); // exclude sensitive info
+  if (!user) throw new Error("User not found");
+
+  return user.toObject();
+};
+
+export const AuthServices = { credentialsLogin ,getMe};

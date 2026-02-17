@@ -9,7 +9,13 @@ const authProviderSchema = new Schema<IAuthProvider>(
 const userSchema = new Schema<IUser>(
   {
     name: { type: String, required: true, unique: true, trim: true, index: true },
-    email: { type: String, unique: true, sparse: true, lowercase: true, trim: true }, // optional
+email: {
+  type: String,
+  lowercase: true,
+  trim: true,
+  // Do NOT add unique: true or sparse: true unless you really want uniqueness on email
+  // If you do want optional unique email later → add: unique: true, sparse: true
+},
     password: { type: String },
     role: { type: String, enum: Object.values(Role), default: Role.USER },
     phone: { type: String },
