@@ -3,20 +3,23 @@ import { ISliderType } from "./sliderType.interface";
 import { SliderTypeModel } from "./sliderType.model";
 
 const createSliderType = async (payload: ISliderType) => {
-    return await SliderTypeModel.create(payload);
+  return await SliderTypeModel.create(payload);
 };
 
 const getAllSliderTypes = async () => {
-    return await SliderTypeModel.find({}).sort({ createdAt: -1 });
+  return await SliderTypeModel.find({}).sort({ createdAt: -1 });
 };
 const getAllSliderTypesWithSlider = async () => {
   // Fetch types
   const types = await SliderTypeModel.find();
-
+  console.log(types)
   // Populate sliders for each type
   const typesWithSliders = await Promise.all(
     types.map(async (type) => {
-      const sliders = await SliderModel.find({ sliderTypeId: type._id, isActive: true }).sort({ order: 1 });
+      const sliders = await SliderModel.find({
+        sliderTypeId: type._id.toString(),
+      }).sort({ order: 1 });
+      console.log(sliders)
       return {
         ...type.toObject(),
         sliders, // add sliders array
@@ -40,21 +43,21 @@ const getSliderTypeById = async (id: string) => {
 };
 
 const updateSliderType = async (id: string, payload: Partial<ISliderType>) => {
-    return await SliderTypeModel.findByIdAndUpdate(id, payload, {
-        new: true,
-        runValidators: true
-    });
+  return await SliderTypeModel.findByIdAndUpdate(id, payload, {
+    new: true,
+    runValidators: true
+  });
 };
 
 const deleteSliderType = async (id: string) => {
-    return await SliderTypeModel.findByIdAndDelete(id);
+  return await SliderTypeModel.findByIdAndDelete(id);
 };
 
 export const SliderTypeService = {
-    createSliderType,
-    getAllSliderTypes,
-    getSliderTypeById,
-    updateSliderType,
-    deleteSliderType,
-    getAllSliderTypesWithSlider
+  createSliderType,
+  getAllSliderTypes,
+  getSliderTypeById,
+  updateSliderType,
+  deleteSliderType,
+  getAllSliderTypesWithSlider
 };

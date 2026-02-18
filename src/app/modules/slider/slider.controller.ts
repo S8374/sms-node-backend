@@ -14,15 +14,21 @@ export const createSlider = async (req: Request, res: Response) => {
 };
 
 export const getSliders = async (req: Request, res: Response) => {
-    const { sliderTypeId } = req.query;
-    const sliders = await SliderService.getAllSliders(sliderTypeId as string);
-    sendResponse(res, {
-      success: true,
-      statusCode: httpStatus.OK,
-      data: sliders,
-      message: ""
-    });
+  const { sliderTypeId, type } = req.query;
+
+  const sliders = await SliderService.getAllSliders({
+    sliderTypeId: sliderTypeId as string | undefined,
+    type: type as string | undefined,
+  });
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    data: sliders,
+    message: "",
+  });
 };
+
 
 export const getSingleSlider = async (req: Request, res: Response) => {
     const slider = await SliderService.getSliderById(req.params.id);
