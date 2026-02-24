@@ -1,0 +1,25 @@
+import { Types } from "mongoose";
+
+export interface IPaymentMethod {
+  _id?: Types.ObjectId;
+  name: string;            
+  slug: string;            
+  icon: string;           
+  description?: string;
+  order: number;           
+  isActive: boolean;       
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+
+
+export interface IInstruction {
+  _id?: Types.ObjectId;
+  step: number;    
+  text: string;     
+  type: string;     
+  isActive?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+}

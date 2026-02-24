@@ -4,6 +4,8 @@ import { UserRoutes } from "../modules/user/user.route"
 import { SliderRoutes } from "../modules/slider/slider.route"
 import { sliderTypeRoutes } from "../modules/sliderType/slider.Type.route"
 import { marqueeRoutes } from "../modules/marquees/marquee.route"
+import { depositRouter } from "../modules/deposite/deposite.route"
+import { inputRoutes } from "../modules/input/input.route"
 
 export const router = Router()
 
@@ -28,6 +30,15 @@ const moduleRoutes = [
         path: "/marquee",
         route: marqueeRoutes
     },
+    
+    {
+        path: "/payment-methods",
+        route: depositRouter
+    },
+    {
+        path: "/input",
+        route: inputRoutes
+    }
 ]
 
 moduleRoutes.forEach((route) => {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import dotenv from "dotenv";
 
 dotenv.config()
@@ -19,21 +20,14 @@ interface EnvConfig {
   EXPRESS_SESSION_SECRET: string;
   FRONTEND_URL: string;
 
-  CLOUDINARY: {
-    CLOUDINARY_CLOUD_NAME: string;
-    CLOUDINARY_API_KEY: string;
-    CLOUDINARY_API_SECRET: string;
-  };
+ 
 }
 
 
 const loadEnvVariables = (): EnvConfig => {
-    const requiredEnvVariables: string[] = ["PORT", "DB_URL", "NODE_ENV", "BCRYPT_SALT_ROUND", "JWT_ACCESS_EXPIRES", "JWT_ACCESS_SECRET", "SUPER_ADMIN_EMAIL", "SUPER_ADMIN_PASSWORD", "JWT_REFRESH_SECRET", "JWT_REFRESH_EXPIRES", "GOOGLE_CLIENT_SECRET", "GOOGLE_CLIENT_ID", "GOOGLE_CALLBACK_URL", "EXPRESS_SESSION_SECRET", "FRONTEND_URL",
+    const requiredEnvVariables: string[] = ["PORT", "DB_URL", "NODE_ENV", "BCRYPT_SALT_ROUND", "JWT_ACCESS_EXPIRES", "JWT_ACCESS_SECRET", "SUPER_ADMIN_EMAIL", "SUPER_ADMIN_PASSWORD", "JWT_REFRESH_SECRET", "JWT_REFRESH_EXPIRES",  "FRONTEND_URL",
        
-   
-   "CLOUDINARY_CLOUD_NAME",
-        "CLOUDINARY_API_KEY",
-        "CLOUDINARY_API_SECRET", "SMTP_PASS"];
+ ];
 
     requiredEnvVariables.forEach(key => {
         if (!process.env[key]) {
@@ -58,11 +52,7 @@ const loadEnvVariables = (): EnvConfig => {
   EXPRESS_SESSION_SECRET: process.env.EXPRESS_SESSION_SECRET as string,
   FRONTEND_URL: process.env.FRONTEND_URL as string,
 
-  CLOUDINARY: {
-    CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME as string,
-    CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY as string,
-    CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET as string,
-  },
+  
 };
 
 }
