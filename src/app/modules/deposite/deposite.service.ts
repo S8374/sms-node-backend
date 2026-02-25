@@ -15,7 +15,9 @@ const getAllPaymentMethods = async () => {
 const getActivePaymentMethods = async () => {
   return await PaymentMethodModel.find({ isActive: true }).sort({ order: 1 });
 };
-
+const getPaymentMethodByTab = async (tab: string) => {
+  return await PaymentMethodModel.find({ tab, isActive: true }).sort({ order: 1 });
+};
 // Get Single
 const getSinglePaymentMethod = async (id: string) => {
   return await PaymentMethodModel.findById(id);
@@ -47,8 +49,8 @@ const getAllInstructions = async () => {
 };
 
 // Get By Type (important for frontend filtering)
-const getInstructionsByType = async (type: string) => {
-  return await InstructionModel.find({ type, isActive: true }).sort({ step: 1 });
+const getInstructionsByType = async (tab: string) => {
+  return await InstructionModel.find({ tab, isActive: true }).sort({ step: 1 });
 };
 
 // Get Single
@@ -86,4 +88,5 @@ export const PaymentMethodService = {
   getSingleInstruction,
   updateInstruction,
   deleteInstruction,
+  getPaymentMethodByTab
 };

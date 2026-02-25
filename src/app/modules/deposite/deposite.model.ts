@@ -19,6 +19,10 @@ const paymentMethodSchema = new Schema<IPaymentMethod>(
       type: String,
       required: true,
     },
+    tab: {
+      type: String,
+      required: true,
+    },
     description: {
       type: String,
     },
@@ -56,10 +60,10 @@ const instructionSchema = new Schema<IInstruction>(
       required: true,
       trim: true,
     },
-    type: {
+    tab: {
       type: String,
       required: true,
-      index: true, // filter by type faster
+      index: true, 
     },
     isActive: {
       type: Boolean,

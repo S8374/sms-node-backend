@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { FormFieldService } from "./input.services";
+import httpStatus from "http-status-codes";
 
 export const createFormField = async (req: Request, res: Response) => {
   const result = await FormFieldService.createField(req.body);
@@ -23,7 +24,16 @@ export const getFormFields = async (req: Request, res: Response) => {
     data: result,
   });
 };
+export const getFromInputByType = async (req: Request, res: Response) => {
+  const { tab } = req.params;
 
+  const result = await FormFieldService.getInputByTab(tab);
+
+  res.status(httpStatus.OK).json({
+    success: true,
+    data: result,
+  });
+};
 export const updateFormField = async (req: Request, res: Response) => {
   const result = await FormFieldService.updateField(
     req.params.id,

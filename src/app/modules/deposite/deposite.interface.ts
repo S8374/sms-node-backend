@@ -4,7 +4,8 @@ export interface IPaymentMethod {
   _id?: Types.ObjectId;
   name: string;            
   slug: string;            
-  icon: string;           
+  icon: string;
+  tab: string;           
   description?: string;
   order: number;           
   isActive: boolean;       
@@ -18,7 +19,7 @@ export interface IInstruction {
   _id?: Types.ObjectId;
   step: number;    
   text: string;     
-  type: string;     
+  tab: string;     
   isActive?: boolean;
   createdAt?: Date;
   updatedAt?: Date;

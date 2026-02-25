@@ -92,9 +92,20 @@ export const getAllInstructions = async (req: Request, res: Response) => {
 
 // Get By Type
 export const getInstructionsByType = async (req: Request, res: Response) => {
-  const { type } = req.params;
+  const { tab } = req.params;
 
-  const result = await PaymentMethodService.getInstructionsByType(type);
+  const result = await PaymentMethodService.getInstructionsByType(tab);
+
+  res.status(httpStatus.OK).json({
+    success: true,
+    data: result,
+  });
+};
+// Get By Type
+export const getPaymentMethodByTab = async (req: Request, res: Response) => {
+  const { tab } = req.params;
+
+  const result = await PaymentMethodService.getPaymentMethodByTab(tab);
 
   res.status(httpStatus.OK).json({
     success: true,

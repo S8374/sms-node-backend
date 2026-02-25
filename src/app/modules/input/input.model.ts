@@ -11,9 +11,13 @@ const formFieldSchema = new Schema<IFormField>(
       type: String,
       required: true,
     },
+    tab:{
+      type:String,
+      required:true
+    },
     type: {
       type: String,
-      enum: ["text", "number", "textarea"],
+      enum: ["text", "number", "textarea","screenshot"],
       required: true,
     },
     placeholder: String,

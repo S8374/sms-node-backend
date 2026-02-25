@@ -13,7 +13,9 @@ const getFieldsByPaymentMethod = async (paymentMethodId: string) => {
     isActive: true,
   }).sort({ order: 1 });
 };
-
+const getInputByTab = async (tab: string) => {
+  return await FormFieldModel.find({ tab }).sort({ order: 1 });
+};
 // Update
 const updateField = async (id: string, payload: Partial<IFormField>) => {
   return await FormFieldModel.findByIdAndUpdate(id, payload, {
@@ -31,4 +33,5 @@ export const FormFieldService = {
   getFieldsByPaymentMethod,
   updateField,
   deleteField,
+  getInputByTab
 };
