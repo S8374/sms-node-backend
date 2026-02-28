@@ -6,6 +6,7 @@ import { sliderTypeRoutes } from "../modules/sliderType/slider.Type.route"
 import { marqueeRoutes } from "../modules/marquees/marquee.route"
 import { depositRouter } from "../modules/deposite/deposite.route"
 import { inputRoutes } from "../modules/input/input.route"
+import { AdminRoutes } from "../modules/admin/admin.route"
 
 export const router = Router()
 
@@ -30,7 +31,7 @@ const moduleRoutes = [
         path: "/marquee",
         route: marqueeRoutes
     },
-    
+
     {
         path: "/payment-methods",
         route: depositRouter
@@ -38,6 +39,10 @@ const moduleRoutes = [
     {
         path: "/input",
         route: inputRoutes
+    },
+    {
+        path: "/admin",
+        route: AdminRoutes
     }
 ]
 
